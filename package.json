@@ -1,0 +1,17 @@
+{
+  "name": "leadflow-ai",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": ["shared", "server", "client"],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:server": "npm run dev -w server",
+    "dev:client": "npm run dev -w client",
+    "build": "npm run build -w shared && npm run build -w server && npm run build -w client",
+    "start": "npm start -w server",
+    "test": "npm test -w server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  }
+}
