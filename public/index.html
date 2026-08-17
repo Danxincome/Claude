@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OddsOracle - AI-Powered Betting Predictions</title>
+  <meta name="description" content="OddsOracle uses advanced AI models to deliver high-accuracy betting predictions across sports, esports, and more. Join the waitlist for early access.">
+  <style>
+    :root {
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #111827;
+      --bg-card: #1a2235;
+      --text-primary: #f0f4ff;
+      --text-secondary: #94a3b8;
+      --accent: #6366f1;
+      --accent-hover: #818cf8;
+      --accent-glow: rgba(99, 102, 241, 0.3);
+      --success: #10b981;
+      --border: #1e293b;
+      --gradient-start: #6366f1;
+      --gradient-end: #a855f7;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Animated background grid */
+    .bg-grid {
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: 0;
+    }
+
+    .bg-glow {
+      position: fixed;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      filter: blur(120px);
+      opacity: 0.15;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .bg-glow-1 {
+      top: -200px;
+      right: -100px;
+      background: var(--gradient-start);
+    }
+
+    .bg-glow-2 {
+      bottom: -200px;
+      left: -100px;
+      background: var(--gradient-end);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Nav */
+    nav {
+      padding: 24px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-decoration: none;
+      color: var(--text-primary);
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--text-primary); }
+
+    /* Hero */
+    .hero {
+      padding: 100px 0 80px;
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(99, 102, 241, 0.1);
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-radius: 100px;
+      font-size: 0.85rem;
+      color: var(--accent-hover);
+      margin-bottom: 32px;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 48px;
+    }
+
+    /* Waitlist Form */
+    .waitlist-form {
+      display: flex;
+      gap: 12px;
+      max-width: 480px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .waitlist-form input {
+      flex: 1;
+      padding: 16px 20px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .waitlist-form input::placeholder { color: var(--text-secondary); }
+
+    .waitlist-form input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+
+    .waitlist-form button {
+      padding: 16px 28px;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      white-space: nowrap;
+    }
+
+    .waitlist-form button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px var(--accent-glow);
+    }
+
+    .waitlist-form button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .form-message {
+      text-align: center;
+      margin-top: 16px;
+      font-size: 0.95rem;
+      min-height: 24px;
+    }
+
+    .form-message.success { color: var(--success); }
+    .form-message.error { color: #ef4444; }
+
+    .waitlist-count {
+      text-align: center;
+      margin-top: 24px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .waitlist-count strong {
+      color: var(--text-primary);
+    }
+
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      padding: 80px 0;
+    }
+
+    .stat-card {
+      text-align: center;
+      padding: 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      margin-top: 8px;
+      font-size: 0.95rem;
+    }
+
+    /* Features */
+    .features {
+      padding: 40px 0 100px;
+    }
+
+    .features h2 {
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .features-subtitle {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      margin-bottom: 60px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      padding: 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      background: rgba(99, 102, 241, 0.1);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .feature-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    /* How it Works */
+    .how-it-works {
+      padding: 80px 0;
+    }
+
+    .how-it-works h2 {
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 60px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+      position: relative;
+    }
+
+    .step {
+      text-align: center;
+      position: relative;
+    }
+
+    .step-number {
+      width: 56px;
+      height: 56px;
+      background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 0 auto 20px;
+    }
+
+    .step h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .step p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    /* CTA Section */
+    .cta {
+      padding: 80px 0;
+      text-align: center;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(168, 85, 247, 0.1));
+      border: 1px solid rgba(99, 102, 241, 0.2);
+      border-radius: 24px;
+      padding: 64px 32px;
+    }
+
+    .cta-box h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .cta-box p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      margin-bottom: 32px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    footer p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    footer a {
+      color: var(--accent-hover);
+      text-decoration: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .stats { grid-template-columns: 1fr; }
+      .hero { padding: 60px 0 40px; }
+      .waitlist-form { flex-direction: column; }
+      .waitlist-form button { width: 100%; }
+      .cta-box { padding: 40px 20px; }
+    }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .animate {
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+  </style>
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+
+  <div class="container">
+    <nav>
+      <a href="#" class="logo">
+        <div class="logo-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        OddsOracle
+      </a>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#how-it-works">How It Works</a></li>
+        <li><a href="#waitlist">Join Waitlist</a></li>
+      </ul>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" id="waitlist">
+      <div class="animate">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          Launching Soon
+        </div>
+      </div>
+      <h1 class="animate delay-1">
+        Smarter Bets with<br><span class="gradient-text">AI Predictions</span>
+      </h1>
+      <p class="animate delay-2">
+        OddsOracle uses advanced machine learning to analyze thousands of data points and deliver high-confidence betting predictions in real time.
+      </p>
+      <form class="waitlist-form animate delay-3" id="waitlistForm">
+        <input type="email" id="emailInput" placeholder="Enter your email" required>
+        <button type="submit" id="submitBtn">Join Waitlist</button>
+      </form>
+      <div class="form-message" id="formMessage"></div>
+      <div class="waitlist-count animate delay-4">
+        <span id="waitlistCount"></span>
+      </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+      <div class="stat-card animate">
+        <div class="stat-number">92%</div>
+        <div class="stat-label">Prediction Accuracy (Backtested)</div>
+      </div>
+      <div class="stat-card animate delay-1">
+        <div class="stat-number">50+</div>
+        <div class="stat-label">Sports & Leagues Covered</div>
+      </div>
+      <div class="stat-card animate delay-2">
+        <div class="stat-number">&lt;2s</div>
+        <div class="stat-label">Real-Time Analysis Speed</div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+      <h2 class="animate">Why OddsOracle?</h2>
+      <p class="features-subtitle animate delay-1">Built for serious bettors who want data-driven decisions, not gut feelings.</p>
+      <div class="features-grid">
+        <div class="feature-card animate">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 20V10"/>
+              <path d="M18 20V4"/>
+              <path d="M6 20v-4"/>
+            </svg>
+          </div>
+          <h3>Deep Data Analysis</h3>
+          <p>Our AI processes historical stats, player performance, weather, injuries, and market trends to surface edges invisible to the naked eye.</p>
+        </div>
+        <div class="feature-card animate delay-1">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+          </div>
+          <h3>Real-Time Predictions</h3>
+          <p>Get instant predictions as odds shift. Our models update continuously, so you never miss a value opportunity before lines move.</p>
+        </div>
+        <div class="feature-card animate delay-2">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3>Bankroll Management</h3>
+          <p>Smart stake sizing recommendations based on your risk tolerance and the confidence level of each prediction. No more overbetting.</p>
+        </div>
+        <div class="feature-card animate delay-3">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+          </div>
+          <h3>Multi-Sport Coverage</h3>
+          <p>From NFL and NBA to soccer, tennis, and esports. OddsOracle covers 50+ leagues with sport-specific models fine-tuned for each.</p>
+        </div>
+        <div class="feature-card animate delay-3">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+              <line x1="8" y1="21" x2="16" y2="21"/>
+              <line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+          </div>
+          <h3>Clean Dashboard</h3>
+          <p>See all your picks, track performance, and review model confidence scores in one intuitive interface. No clutter, just clarity.</p>
+        </div>
+        <div class="feature-card animate delay-4">
+          <div class="feature-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+          </div>
+          <h3>Transparent Track Record</h3>
+          <p>Every prediction is logged and verified. Review historical accuracy across sports, bet types, and time periods. No cherry-picking.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How it Works -->
+    <section class="how-it-works" id="how-it-works">
+      <h2 class="animate">How It Works</h2>
+      <div class="steps">
+        <div class="step animate">
+          <div class="step-number">1</div>
+          <h3>Sign Up</h3>
+          <p>Create your account and set your sport preferences and risk profile.</p>
+        </div>
+        <div class="step animate delay-1">
+          <div class="step-number">2</div>
+          <h3>Get Predictions</h3>
+          <p>Receive AI-powered picks with confidence scores, expected value, and optimal stake sizes.</p>
+        </div>
+        <div class="step animate delay-2">
+          <div class="step-number">3</div>
+          <h3>Place Your Bets</h3>
+          <p>Use our picks on your preferred sportsbook. We integrate with all major platforms.</p>
+        </div>
+        <div class="step animate delay-3">
+          <div class="step-number">4</div>
+          <h3>Track & Improve</h3>
+          <p>Monitor results in your dashboard. Our models learn and improve with every game.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+      <div class="cta-box animate">
+        <h2>Ready to Bet Smarter?</h2>
+        <p>Join the waitlist now and be first to access OddsOracle when we launch.</p>
+        <form class="waitlist-form" id="waitlistFormBottom">
+          <input type="email" id="emailInputBottom" placeholder="Enter your email" required>
+          <button type="submit">Get Early Access</button>
+        </form>
+        <div class="form-message" id="formMessageBottom"></div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2026 OddsOracle. All rights reserved. | <a href="mailto:contact@oddsoracle.ai">contact@oddsoracle.ai</a></p>
+    </footer>
+  </div>
+
+  <script>
+    async function handleSubmit(form, emailInput, messageEl) {
+      const email = emailInput.value.trim();
+      const btn = form.querySelector('button');
+
+      btn.disabled = true;
+      btn.textContent = 'Joining...';
+      messageEl.textContent = '';
+      messageEl.className = 'form-message';
+
+      try {
+        const res = await fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          messageEl.textContent = `You're in! You're #${data.position} on the waitlist.`;
+          messageEl.className = 'form-message success';
+          emailInput.value = '';
+          updateCount();
+        } else {
+          messageEl.textContent = data.error;
+          messageEl.className = 'form-message error';
+        }
+      } catch {
+        messageEl.textContent = 'Something went wrong. Please try again.';
+        messageEl.className = 'form-message error';
+      }
+
+      btn.disabled = false;
+      btn.textContent = form.id === 'waitlistForm' ? 'Join Waitlist' : 'Get Early Access';
+    }
+
+    async function updateCount() {
+      try {
+        const res = await fetch('/api/waitlist/count');
+        const data = await res.json();
+        const el = document.getElementById('waitlistCount');
+        if (data.count > 0) {
+          el.innerHTML = `<strong>${data.count.toLocaleString()}</strong> people on the waitlist`;
+        }
+      } catch {}
+    }
+
+    document.getElementById('waitlistForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      handleSubmit(e.target, document.getElementById('emailInput'), document.getElementById('formMessage'));
+    });
+
+    document.getElementById('waitlistFormBottom').addEventListener('submit', (e) => {
+      e.preventDefault();
+      handleSubmit(e.target, document.getElementById('emailInputBottom'), document.getElementById('formMessageBottom'));
+    });
+
+    updateCount();
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.animate').forEach(el => {
+      el.style.animationPlayState = 'paused';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
