@@ -13,7 +13,7 @@ export function ConversationsPage() {
   const closeConversation = useCloseConversation();
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const conversations = (data as any)?.data || [];
+  const conversations = data?.data || [];
 
   if (isLoading) return <div className="flex justify-center py-20"><LoadingSpinner /></div>;
 
@@ -91,7 +91,7 @@ export function ConversationsPage() {
 
 function ConversationDetail({ id, onClose }: { id: string; onClose: (id: string) => void }) {
   const { data, isLoading } = useConversation(id);
-  const conversation = (data as any)?.data;
+  const conversation = data?.data;
 
   if (isLoading || !conversation) return <Card><div className="flex justify-center py-20"><LoadingSpinner /></div></Card>;
 

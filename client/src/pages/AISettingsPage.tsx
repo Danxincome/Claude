@@ -12,7 +12,7 @@ import type { ServiceItem, FaqItem } from '@shared/index';
 export function AISettingsPage() {
   const { data, isLoading } = useAISettings();
   const updateSettings = useUpdateAISettings();
-  const { addToast } = useToast();
+  const { showToast } = useToast();
 
   const [businessName, setBusinessName] = useState('');
   const [services, setServices] = useState<ServiceItem[]>([]);
@@ -56,9 +56,9 @@ export function AISettingsPage() {
       await updateSettings.mutateAsync({
         businessName, services, businessHours, location, faqs, bookingInstructions, aiGreeting,
       });
-      addToast('Settings saved successfully', 'success');
+      showToast('Settings saved successfully', 'success');
     } catch {
-      addToast('Failed to save settings', 'error');
+      showToast('Failed to save settings', 'error');
     }
   };
 

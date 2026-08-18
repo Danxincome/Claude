@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { sendChatMessage } from '../lib/api/chat.api';
-import type { ChatResponse } from '@shared/index';
+import type { ChatResponse, ApiResponse } from '@shared/index';
 
 interface ChatMessage {
   role: 'customer' | 'assistant';
@@ -18,15 +18,14 @@ export function useChat() {
     setIsLoading(true);
 
     try {
-      const response = await sendChatMessage(conversationId, message);
-      const data = (response as any).data as ChatResponse;
-      setConversationId(data.conversationId);
-      setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
-      if (data.leadId) setLastLeadId(data.leadId);
-      return data;
+      const response = await sendChatMessage(conversationId, message) as ApiResponse<ChatResponse>;
+      const chatData = response.data;
+      setConversationId(chatData.conversationId);
+      setMessages(prev => [...prev, { role: 'assistant', content: chatData.reply }]);
+      if (chatData.leadId) setLastLeadId(chatData.leadId);
+      return chatData;
     } catch (err) {
       setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, I encountered an error. Please try again.' }]);
-      throw err;
     } finally {
       setIsLoading(false);
     }

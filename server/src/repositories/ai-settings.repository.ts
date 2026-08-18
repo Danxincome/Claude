@@ -14,14 +14,23 @@ interface SettingsRow {
   updated_at: string;
 }
 
+function safeJsonParse(str: string, fallback: any[] = []): any[] {
+  try {
+    const parsed = JSON.parse(str || '[]');
+    return Array.isArray(parsed) ? parsed : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
 function rowToSettings(row: SettingsRow): AISettings {
   return {
     id: row.id,
     businessName: row.business_name,
-    services: JSON.parse(row.services || '[]'),
+    services: safeJsonParse(row.services),
     businessHours: row.business_hours,
     location: row.location,
-    faqs: JSON.parse(row.faqs || '[]'),
+    faqs: safeJsonParse(row.faqs),
     bookingInstructions: row.booking_instructions,
     aiGreeting: row.ai_greeting,
     createdAt: row.created_at,

@@ -6,8 +6,17 @@ const receptionist = new ReceptionistService();
 
 router.post('/', async (req: Request, res: Response) => {
   const { conversationId, message } = req.body;
+  if (conversationId !== undefined && conversationId !== null && typeof conversationId !== 'string') {
+    res.status(400).json({ success: false, error: 'conversationId must be a string' });
+    return;
+  }
   if (!message || typeof message !== 'string' || message.trim().length === 0) {
     res.status(400).json({ success: false, error: 'message is required' });
+    return;
+  }
+
+  if (message.length > 5000) {
+    res.status(400).json({ success: false, error: 'Message is too long (max 5000 characters)' });
     return;
   }
 

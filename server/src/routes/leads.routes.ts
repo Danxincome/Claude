@@ -12,16 +12,22 @@ const scoringService = new ScoringService();
 const insightsService = new InsightsService();
 
 router.get('/', (req: Request, res: Response) => {
+  const parseIntSafe = (val: unknown): number | undefined => {
+    if (!val) return undefined;
+    const n = parseInt(val as string, 10);
+    return Number.isNaN(n) ? undefined : n;
+  };
+
   const filters: LeadFilters = {
     status: req.query.status as string,
     source: req.query.source as string,
     search: req.query.search as string,
-    scoreMin: req.query.scoreMin ? parseInt(req.query.scoreMin as string, 10) : undefined,
-    scoreMax: req.query.scoreMax ? parseInt(req.query.scoreMax as string, 10) : undefined,
+    scoreMin: parseIntSafe(req.query.scoreMin),
+    scoreMax: parseIntSafe(req.query.scoreMax),
     sortBy: (req.query.sortBy as string) || 'created_at',
     sortOrder: (req.query.sortOrder as 'asc' | 'desc') || 'desc',
-    page: req.query.page ? parseInt(req.query.page as string, 10) : 1,
-    pageSize: req.query.pageSize ? parseInt(req.query.pageSize as string, 10) : 20,
+    page: parseIntSafe(req.query.page) || 1,
+    pageSize: Math.min(parseIntSafe(req.query.pageSize) || 20, 100),
   };
 
   const { leads, total } = leadRepo.findAll(filters);

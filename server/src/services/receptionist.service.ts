@@ -3,6 +3,7 @@ import { ConversationRepository } from '../repositories/conversation.repository'
 import { LeadRepository } from '../repositories/lead.repository';
 import { ActivityRepository } from '../repositories/activity.repository';
 import { ScoringService } from './scoring.service';
+import { config } from '../config';
 import type { AISettings, Message } from '../../../shared/src/index';
 
 interface ExtractedInfo {
@@ -21,7 +22,7 @@ export class ReceptionistService {
   private activityRepo = new ActivityRepository();
   private scoringService = new ScoringService();
 
-  private apiKey = process.env.ANTHROPIC_API_KEY || '';
+  private apiKey = config.anthropicApiKey;
 
   async chat(conversationId: string | undefined, userMessage: string): Promise<{
     conversationId: string;
@@ -35,6 +36,12 @@ export class ReceptionistService {
     if (!convId) {
       const conv = this.conversationRepo.create();
       convId = conv.id;
+    } else {
+      const existing = this.conversationRepo.findById(convId);
+      if (!existing) {
+        const conv = this.conversationRepo.create();
+        convId = conv.id;
+      }
     }
 
     this.conversationRepo.addMessage(convId, 'customer', userMessage);
@@ -42,11 +49,13 @@ export class ReceptionistService {
     const messages = this.conversationRepo.getMessages(convId);
     const extracted = this.extractInfoFromMessages(messages);
 
-    this.conversationRepo.updateCustomerInfo(convId, {
-      name: extracted.name,
-      email: extracted.email,
-      phone: extracted.phone,
-    });
+    const infoUpdate: { name?: string; email?: string; phone?: string } = {};
+    if (extracted.name) infoUpdate.name = extracted.name;
+    if (extracted.email) infoUpdate.email = extracted.email;
+    if (extracted.phone) infoUpdate.phone = extracted.phone;
+    if (Object.keys(infoUpdate).length > 0) {
+      this.conversationRepo.updateCustomerInfo(convId, infoUpdate);
+    }
 
     let reply: string;
     if (this.apiKey) {
