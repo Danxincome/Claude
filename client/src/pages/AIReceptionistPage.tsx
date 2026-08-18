@@ -33,7 +33,7 @@ export function AIReceptionistPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">AI Receptionist</h1>
-          <p className="text-gray-500 mt-1">Test your AI receptionist chat as a customer would see it</p>
+          <p className="text-sm text-gray-500 mt-1">Test your AI receptionist chat as a customer would see it</p>
         </div>
         <div className="flex items-center gap-3">
           {lastLeadId && (
@@ -48,7 +48,7 @@ export function AIReceptionistPage() {
       </div>
 
       <Card>
-        <div className="flex flex-col h-[600px]">
+        <div className="flex flex-col h-[calc(100vh-280px)] min-h-[400px] max-h-[700px]">
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             {messages.length === 0 && (
               <div className="flex flex-col items-center justify-center h-full text-gray-400">

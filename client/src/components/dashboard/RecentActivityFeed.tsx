@@ -28,6 +28,11 @@ export function RecentActivityFeed({ activities }: RecentActivityFeedProps) {
         <h3 className="text-base font-semibold text-gray-900">Recent Activity</h3>
       </div>
       <div className="divide-y divide-gray-100 max-h-80 overflow-y-auto scrollbar-thin">
+        {activities.length === 0 && (
+          <div className="px-6 py-8 text-center text-sm text-gray-400">
+            No recent activity
+          </div>
+        )}
         {activities.map(activity => {
           const Icon = typeIcons[activity.type as keyof typeof typeIcons] || FileText;
           const colorClass = typeColors[activity.type as keyof typeof typeColors] || typeColors.Note;

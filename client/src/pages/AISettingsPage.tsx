@@ -69,7 +69,7 @@ export function AISettingsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">AI Receptionist Settings</h1>
-          <p className="text-gray-500 mt-1">Configure your business information for the AI receptionist</p>
+          <p className="text-sm text-gray-500 mt-1">Configure your business information for the AI receptionist</p>
         </div>
         <Button onClick={handleSave} disabled={updateSettings.isPending}>
           <Save className="w-4 h-4 mr-2" />
@@ -77,8 +77,8 @@ export function AISettingsPage() {
         </Button>
       </div>
 
-      <Card>
-        <div className="p-6 space-y-4">
+      <Card padding="none">
+        <div className="p-5 sm:p-6 space-y-4">
           <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
             <Building2 className="w-5 h-5 text-primary-500" />
             Business Information
@@ -101,8 +101,8 @@ export function AISettingsPage() {
         </div>
       </Card>
 
-      <Card>
-        <div className="p-6 space-y-4">
+      <Card padding="none">
+        <div className="p-5 sm:p-6 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
               <span className="text-primary-500">$</span>
@@ -134,8 +134,8 @@ export function AISettingsPage() {
         </div>
       </Card>
 
-      <Card>
-        <div className="p-6 space-y-4">
+      <Card padding="none">
+        <div className="p-5 sm:p-6 space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
               <HelpCircle className="w-5 h-5 text-primary-500" />
@@ -161,8 +161,8 @@ export function AISettingsPage() {
         </div>
       </Card>
 
-      <Card>
-        <div className="p-6 space-y-4">
+      <Card padding="none">
+        <div className="p-5 sm:p-6 space-y-4">
           <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
             <BookOpen className="w-5 h-5 text-primary-500" />
             Booking Instructions
@@ -171,8 +171,8 @@ export function AISettingsPage() {
         </div>
       </Card>
 
-      <Card>
-        <div className="p-6 space-y-4">
+      <Card padding="none">
+        <div className="p-5 sm:p-6 space-y-4">
           <div className="flex items-center gap-2 text-lg font-semibold text-gray-900">
             <MessageSquare className="w-5 h-5 text-primary-500" />
             AI Greeting

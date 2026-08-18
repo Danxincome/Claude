@@ -28,6 +28,13 @@ export function TopLeadsTable({ leads }: TopLeadsTableProps) {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
+            {leads.length === 0 && (
+              <tr>
+                <td colSpan={4} className="px-6 py-8 text-center text-sm text-gray-400">
+                  No leads yet
+                </td>
+              </tr>
+            )}
             {leads.map(lead => (
               <tr
                 key={lead.id}

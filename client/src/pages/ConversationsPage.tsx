@@ -21,10 +21,10 @@ export function ConversationsPage() {
     <div className="space-y-4">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Conversations</h1>
-        <p className="text-gray-500 mt-1">View and manage customer chat conversations</p>
+        <p className="text-sm text-gray-500 mt-1">View and manage customer chat conversations</p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4" style={{ minHeight: '600px' }}>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4" style={{ minHeight: '500px' }}>
         <div className="lg:col-span-1 space-y-2">
           {conversations.length === 0 && (
             <EmptyState
@@ -97,7 +97,7 @@ function ConversationDetail({ id, onClose }: { id: string; onClose: (id: string)
 
   return (
     <Card>
-      <div className="flex flex-col h-[600px]">
+      <div className="flex flex-col h-[calc(100vh-280px)] min-h-[400px] max-h-[700px]">
         <div className="p-4 border-b flex items-center justify-between">
           <div>
             <h3 className="font-semibold text-gray-900">{conversation.customerName || 'Unknown Customer'}</h3>
