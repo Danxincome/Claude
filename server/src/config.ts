@@ -8,4 +8,5 @@ export const config = {
   databasePath: process.env.DATABASE_PATH || path.join(__dirname, '..', 'data', 'leadflow.db'),
   nodeEnv: process.env.NODE_ENV || 'development',
   clientDistPath: path.join(__dirname, '..', '..', 'client', 'dist'),
+  anthropicApiKey: process.env.ANTHROPIC_API_KEY || '',
 };

@@ -10,6 +10,9 @@ import activitiesRoutes from './routes/activities.routes';
 import insightsRoutes from './routes/insights.routes';
 import dashboardRoutes from './routes/dashboard.routes';
 import searchRoutes from './routes/search.routes';
+import aiSettingsRoutes from './routes/ai-settings.routes';
+import conversationsRoutes from './routes/conversations.routes';
+import chatRoutes from './routes/chat.routes';
 
 const app = express();
 
@@ -22,6 +25,9 @@ app.use('/api/leads/:id/insights', insightsRoutes);
 app.use('/api/leads', leadsRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/search', searchRoutes);
+app.use('/api/ai-settings', aiSettingsRoutes);
+app.use('/api/conversations', conversationsRoutes);
+app.use('/api/chat', chatRoutes);
 
 if (config.nodeEnv === 'production') {
   app.use(express.static(config.clientDistPath));

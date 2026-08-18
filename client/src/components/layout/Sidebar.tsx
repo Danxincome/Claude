@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Users, Columns3, X, Zap } from 'lucide-react';
+import { LayoutDashboard, Users, Columns3, X, Zap, Bot, MessageSquare, Settings } from 'lucide-react';
 
 interface SidebarProps {
   open: boolean;
@@ -10,6 +10,9 @@ const navItems = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/leads', label: 'Leads', icon: Users },
   { to: '/pipeline', label: 'Pipeline', icon: Columns3 },
+  { to: '/receptionist', label: 'AI Receptionist', icon: Bot },
+  { to: '/conversations', label: 'Conversations', icon: MessageSquare },
+  { to: '/ai-settings', label: 'AI Settings', icon: Settings },
 ];
 
 export function Sidebar({ open, onClose }: SidebarProps) {

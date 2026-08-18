@@ -3,4 +3,6 @@ export * from './types/activity';
 export * from './types/insight';
 export * from './types/api';
 export * from './types/dashboard';
+export * from './types/ai-settings';
+export * from './types/conversation';
 export * from './constants';
